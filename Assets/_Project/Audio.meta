@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/_Project/Audio.meta
 guid: ad36e39b04db3ce40b44a8def51ee5e9
 folderAsset: yes
+========
+guid: e4644a246dfe3134c9296540c2afcd45
+>>>>>>>> 07c64221fcd40e0598dff6e181323985c637795f:Assets/_Project/Scenes/TestScene.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 
