@@ -155,6 +155,8 @@ namespace Project.Player
         {
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
+            Debug.Log(h);
+            Debug.Log(v);
             Vector3 wish = transform.right * h + transform.forward * v;
             wish.y = 0f;
             return wish.sqrMagnitude > 1f ? wish.normalized : wish;
