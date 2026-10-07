@@ -22,7 +22,7 @@ namespace Project.Player
         [Header("Air Movement")]
         [Tooltip("Air movement uses Quake-style acceleration, which is what makes strafing/bunny-hopping gain speed like in Ultrakill.")]
         [SerializeField] private float airAcceleration = 50f;
-        [SerializeField] private float airSpeedCap = 1.6f; // multiplier of moveSpeed reachable purely from air-strafing
+        [SerializeField] private float airSpeedCap = 1.6f;
         [SerializeField] private float airControl = 1f;
 
         [Header("Jump")]
@@ -31,6 +31,13 @@ namespace Project.Player
         [SerializeField] private float jumpBufferTime = 0.12f;
         [SerializeField] private float gravity = -28f;
         [SerializeField] private float fallMultiplier = 1.6f;
+
+        [Header("Wall Jump")]
+        [SerializeField] private float wallJumpForce = 9.5f;
+        [SerializeField] private float wallJumpPush = 11f;
+        [SerializeField] private int maxWallJumps = 3;
+        [SerializeField] private float wallContactGrace = 0.12f;
+        [SerializeField] private float wallMaxNormalY = 0.3f;
 
         [Header("Dash")]
         [SerializeField] private float dashSpeed = 22f;
@@ -46,11 +53,14 @@ namespace Project.Player
 
         [Header("Slide")]
         [SerializeField] private float slideSpeedBoost = 1.35f;
+        [SerializeField] private float slideImpulse = 14f;
         [SerializeField] private float slideFriction = 1.5f;
         [SerializeField] private float minSlideSpeed = 4f;
         [SerializeField] private float slideHopBoost = 1.1f;
         [SerializeField] private float standingHeight = 2f;
         [SerializeField] private float slidingHeight = 1f;
+        [SerializeField] private float slideEnterSnap = 0.7f;
+        [SerializeField] private float slideEnterHeightSpeed = 40f;
         [SerializeField] private float crouchTransitionSpeed = 10f;
 
         private CharacterController controller;
@@ -72,9 +82,14 @@ namespace Project.Player
         private Vector3 dashDirection;
         private float dashRegenTimer;
 
+        private Vector3 wallNormal;
+        private float wallContactTimer;
+        private int wallJumpsUsed;
+
         public bool IsSliding => isSliding;
         public bool IsDashing => isDashing;
         public bool IsGrounded => isGrounded;
+        public int WallJumpsRemaining => Mathf.Max(0, maxWallJumps - wallJumpsUsed);
         public Vector3 HorizontalVelocity => new Vector3(velocity.x, 0f, velocity.z);
 
         private void Awake()
@@ -92,6 +107,7 @@ namespace Project.Player
             HandleTimers();
             HandleSlideInput();
             HandleDashInput();
+            HandleWallJump();
 
             if (isDashing)
             {
@@ -125,6 +141,7 @@ namespace Project.Player
                 if (!wasGroundedLastFrame)
                 {
                     dashCharges = maxDashCharges;
+                    wallJumpsUsed = 0;
                 }
             }
             else
@@ -139,6 +156,8 @@ namespace Project.Player
                 jumpBufferTimer = jumpBufferTime;
             else
                 jumpBufferTimer -= Time.deltaTime;
+
+            wallContactTimer -= Time.deltaTime;
 
             if (dashCharges < maxDashCharges)
             {
@@ -155,8 +174,6 @@ namespace Project.Player
         {
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
-            Debug.Log(h);
-            Debug.Log(v);
             Vector3 wish = transform.right * h + transform.forward * v;
             wish.y = 0f;
             return wish.sqrMagnitude > 1f ? wish.normalized : wish;
@@ -259,11 +276,22 @@ namespace Project.Player
         private void StartSlide()
         {
             isSliding = true;
+
             Vector3 horizontalVel = new Vector3(velocity.x, 0f, velocity.z);
-            float boostedSpeed = Mathf.Max(horizontalVel.magnitude * slideSpeedBoost, moveSpeed * slideSpeedBoost);
             Vector3 dir = horizontalVel.sqrMagnitude > 0.01f ? horizontalVel.normalized : transform.forward;
-            velocity.x = dir.x * boostedSpeed;
-            velocity.z = dir.z * boostedSpeed;
+            float entrySpeed = Mathf.Max(horizontalVel.magnitude * slideSpeedBoost, slideImpulse);
+
+            velocity.x = dir.x * entrySpeed;
+            velocity.z = dir.z * entrySpeed;
+
+            currentHeight = Mathf.Lerp(currentHeight, slidingHeight, slideEnterSnap);
+
+            if (cameraHolder != null)
+            {
+                Vector3 pos = cameraHolder.localPosition;
+                pos.y = Mathf.Lerp(pos.y, currentHeight * 0.85f, slideEnterSnap);
+                cameraHolder.localPosition = pos;
+            }
 
             if (playerCamera != null) playerCamera.OnSlideStart();
         }
@@ -278,7 +306,6 @@ namespace Project.Player
         {
             ApplyFriction(slideFriction);
 
-            // Light steering while sliding, doesn't override the momentum feel.
             Vector3 wishDir = GetWishDir();
             Accelerate(wishDir, moveSpeed * slideSpeedBoost, groundAcceleration * 0.25f);
         }
@@ -336,6 +363,41 @@ namespace Project.Player
             verticalVelocity = Mathf.Lerp(verticalVelocity, 0f, Time.deltaTime * 4f);
         }
 
+        private void OnControllerColliderHit(ControllerColliderHit hit)
+        {
+            if (isGrounded) return;
+
+            Vector3 n = hit.normal;
+            if (n.y > wallMaxNormalY || n.y < -wallMaxNormalY) return;
+
+            wallNormal = new Vector3(n.x, 0f, n.z).normalized;
+            wallContactTimer = wallContactGrace;
+        }
+
+        private void HandleWallJump()
+        {
+            if (isGrounded || coyoteTimer > 0f) return;
+            if (jumpBufferTimer <= 0f) return;
+            if (wallContactTimer <= 0f) return;
+            if (wallJumpsUsed >= maxWallJumps) return;
+
+            Vector3 horizontalVel = new Vector3(velocity.x, 0f, velocity.z);
+            float into = Vector3.Dot(horizontalVel, wallNormal);
+            if (into < 0f) horizontalVel -= wallNormal * into;
+            horizontalVel += wallNormal * wallJumpPush;
+
+            velocity.x = horizontalVel.x;
+            velocity.z = horizontalVel.z;
+            verticalVelocity = wallJumpForce;
+
+            jumpBufferTimer = 0f;
+            wallContactTimer = 0f;
+            wallJumpsUsed++;
+            isDashing = false;
+
+            if (playerCamera != null) playerCamera.OnWallJump(wallNormal);
+        }
+
         private void ApplyGravity()
         {
             if (isDashing)
@@ -346,7 +408,7 @@ namespace Project.Player
 
             if (isGrounded && verticalVelocity < 0f)
             {
-                verticalVelocity = -2f; // keeps CharacterController firmly groundeds
+                verticalVelocity = -2f;
             }
             else
             {
@@ -360,7 +422,7 @@ namespace Project.Player
         private void ClampHorizontalSpeed()
         {
             if (maxHorizontalSpeed <= 0f) return;
-            if (isDashing) return; // dash is allowed to briefly exceed the cap for its snap
+            if (isDashing) return;
 
             Vector3 horizontalVel = new Vector3(velocity.x, 0f, velocity.z);
             if (horizontalVel.magnitude > maxHorizontalSpeed)
@@ -374,14 +436,17 @@ namespace Project.Player
         private void UpdateCrouchHeight()
         {
             float targetHeight = isSliding ? slidingHeight : standingHeight;
-            currentHeight = Mathf.Lerp(currentHeight, targetHeight, Time.deltaTime * crouchTransitionSpeed);
+            float speed = isSliding ? slideEnterHeightSpeed : crouchTransitionSpeed;
+            float t = 1f - Mathf.Exp(-speed * Time.deltaTime);
+
+            currentHeight = Mathf.Lerp(currentHeight, targetHeight, t);
             controller.height = currentHeight;
             controller.center = new Vector3(0f, currentHeight * 0.5f, 0f);
 
             if (cameraHolder != null)
             {
                 Vector3 pos = cameraHolder.localPosition;
-                pos.y = Mathf.Lerp(pos.y, currentHeight * 0.85f, Time.deltaTime * crouchTransitionSpeed);
+                pos.y = Mathf.Lerp(pos.y, currentHeight * 0.85f, t);
                 cameraHolder.localPosition = pos;
             }
         }

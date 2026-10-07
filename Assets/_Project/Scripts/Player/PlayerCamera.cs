@@ -17,12 +17,22 @@ namespace Project.Player
         [SerializeField] private float strafeTiltAmount = 3f;
         [SerializeField] private float slideTiltAmount = 8f;
         [SerializeField] private float tiltSpeed = 8f;
+        [SerializeField] private float slideTiltSpeed = 22f;
 
         [Header("Dash FOV Kick")]
         [SerializeField] private float baseFov = 90f;
         [SerializeField] private float dashFov = 100f;
         [SerializeField] private float fovLerpSpeed = 10f;
         [SerializeField] private float dashFovHoldTime = 0.18f;
+
+        [Header("Slide FOV Kick")]
+        [SerializeField] private float slideFov = 96f;
+        [SerializeField] private float slideFovHoldTime = 0.12f;
+
+        [Header("Wall Jump Kick")]
+        [SerializeField] private float wallJumpFov = 98f;
+        [SerializeField] private float wallJumpFovHoldTime = 0.1f;
+        [SerializeField] private float wallJumpTiltKick = 9f;
 
         private float pitch;
         private float currentTilt;
@@ -63,8 +73,9 @@ namespace Project.Player
         {
             float strafe = Input.GetAxisRaw("Horizontal");
             float amount = isSliding ? slideTiltAmount : strafeTiltAmount;
+            float speed = isSliding ? slideTiltSpeed : tiltSpeed;
             float target = -strafe * amount;
-            currentTilt = Mathf.Lerp(currentTilt, target, Time.deltaTime * tiltSpeed);
+            currentTilt = Mathf.Lerp(currentTilt, target, 1f - Mathf.Exp(-speed * Time.deltaTime));
         }
 
         private void HandleFov()
@@ -87,6 +98,17 @@ namespace Project.Player
         public void OnSlideStart()
         {
             isSliding = true;
+            targetFov = Mathf.Max(targetFov, slideFov);
+            CancelInvoke(nameof(ResetFov));
+            Invoke(nameof(ResetFov), slideFovHoldTime);
+        }
+
+        public void OnWallJump(Vector3 wallNormal)
+        {
+            targetFov = Mathf.Max(targetFov, wallJumpFov);
+            CancelInvoke(nameof(ResetFov));
+            Invoke(nameof(ResetFov), wallJumpFovHoldTime);
+            currentTilt = -Vector3.Dot(wallNormal, transform.right) * wallJumpTiltKick;
         }
 
         public void OnSlideEnd()
