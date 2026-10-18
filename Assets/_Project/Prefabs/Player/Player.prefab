@@ -172,12 +172,12 @@ MonoBehaviour:
   airAcceleration: 50
   airSpeedCap: 1.6
   airControl: 1
-  jumpForce: 8
+  jumpForce: 10
   coyoteTime: 0.12
   jumpBufferTime: 0.12
   gravity: -28
   fallMultiplier: 1.6
-  wallJumpForce: 9.5
+  wallJumpForce: 12
   wallJumpPush: 11
   maxWallJumps: 3
   wallContactGrace: 0.12
