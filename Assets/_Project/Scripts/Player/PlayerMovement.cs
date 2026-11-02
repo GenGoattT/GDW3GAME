@@ -42,9 +42,9 @@ namespace Project.Player
         [Header("Dash")]
         [SerializeField] private float dashSpeed = 22f;
         [SerializeField] private float dashDuration = 0.18f;
-        [SerializeField] private int maxDashCharges = 1;
+        [SerializeField] public int maxDashCharges = 1; //Changed this to public so that the HUD can access it for the dash cooldown display.
         [Tooltip("Charges also slowly regenerate mid-air on this cooldown so you're never permanently stuck without one during a long fall. Landing always fully refills.")]
-        [SerializeField] private float dashRegenTime = 0.6f;
+        [SerializeField] public float dashRegenTime = 0.6f; //Changed this to public so that the HUD can access it for the dash cooldown display.
         [SerializeField] private float dashUpwardBoost = 1f;
 
         [Header("Speed Limit")]
@@ -76,11 +76,11 @@ namespace Project.Player
         private bool isSliding;
         private float currentHeight;
 
-        private int dashCharges;
+        public int dashCharges; //Changed this to public so that the HUD can access it for the dash cooldown display.
         private bool isDashing;
         private float dashTimer;
         private Vector3 dashDirection;
-        private float dashRegenTimer;
+        public float dashRegenTimer; //Changed this to public so that the HUD can access it for the dash cooldown display.
 
         private Vector3 wallNormal;
         private float wallContactTimer;

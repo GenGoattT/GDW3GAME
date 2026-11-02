@@ -16,6 +16,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private string Name;
     [SerializeField] private int CurrentAmmo;
     [SerializeField] private int MaxAmmo;
+    [SerializeField] private Sprite HudPreview; //Added this so that the HUD can display the weapon preview image. 
 
     private bool AllowPlayerInputs = false;
     private void Awake()
@@ -58,7 +59,7 @@ public class Weapon : MonoBehaviour
     }
     public WeaponInstanceData ConvertToWeaponInstanceData()
     {
-        WeaponInstanceData w = new WeaponInstanceData(Id,CurrentAmmo,Name);
+        WeaponInstanceData w = new WeaponInstanceData(Id, CurrentAmmo, Name, HudPreview);
 
 
 

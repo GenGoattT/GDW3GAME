@@ -15,7 +15,7 @@ public class WeaponManager : MonoBehaviour
     [SerializeField] private List<WeaponInstanceData> HeldWeapons;
 
 
-    private Weapon HeldWeapon = null;
+    public Weapon HeldWeapon = null; //Changed this to public so that the HUD can access it for the weapon preview.
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
