@@ -13,9 +13,9 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] private WeaponIds Id;
     [SerializeField] private string Name;
-    [SerializeField] private int CurrentAmmo;
+    [SerializeField] public int CurrentAmmo; //Changed this to public so that the HUD can access it for the ammo count.
     [SerializeField] private int MaxAmmo;
-    [SerializeField] private Sprite HudPreview; //Added this so that the HUD can display the weapon preview image. 
+    [SerializeField] public Sprite HudPreview; //Added this so that the HUD can display the weapon preview image. 
 
     [Header("Firing (Ultrakill style hitscan)")]
     [SerializeField] private float damage = 10f;
@@ -185,7 +185,7 @@ public class Weapon : MonoBehaviour
     }
     public WeaponInstanceData ConvertToWeaponInstanceData()
     {
-        WeaponInstanceData w = new WeaponInstanceData(Id, CurrentAmmo, Name, HudPreview);
+        WeaponInstanceData w = new WeaponInstanceData(Id, CurrentAmmo, Name/*, HudPreview*/);
 
         return w;
     }

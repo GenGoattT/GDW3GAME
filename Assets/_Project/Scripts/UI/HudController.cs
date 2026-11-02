@@ -71,7 +71,7 @@ public class HudController : MonoBehaviour
         }
 
         //Dashes
-        dashCooldown.value = playerMovement.dashCharges + ((playerMovement.dashRegenTime - playerMovement.dashRegenTimer) / playerMovement.dashRegenTime) / playerMovement.maxDashCharges;
+        dashCooldown.value = (playerMovement.dashCharges + ((playerMovement.dashRegenTime - playerMovement.dashRegenTimer) / playerMovement.dashRegenTime)) / playerMovement.maxDashCharges;
         dashText.GetComponent<TextMeshProUGUI>().text = $"{playerMovement.dashCharges}";
         if (lastDashCharges != playerMovement.dashCharges)
         {
@@ -91,8 +91,8 @@ public class HudController : MonoBehaviour
             dashCooldownPercent = dashCooldown.value; // Using this to present in the inspector for testing purposes
 
         //Weapons
-        currentWeaponImage.sprite = weaponManager.HeldWeapon.WeaponInstance.HudPreview;
-        ammoText.GetComponent<TextMeshProUGUI>().text = $"{weaponManager.HeldWeapon.WeaponInstance.Ammo}";
+        currentWeaponImage.sprite = weaponManager.HeldWeapon.HudPreview;
+        ammoText.GetComponent<TextMeshProUGUI>().text = $"{weaponManager.HeldWeapon.CurrentAmmo}";
     }
 
     void UpdateHealth(float newHealth)
@@ -106,6 +106,7 @@ public class HudController : MonoBehaviour
 
     void UpdateWeaponPreview()
     {
-        currentWeaponImage.sprite = weaponManager.HeldWeapon.WeaponInstance.HudPreview;
+
+        currentWeaponImage.sprite = weaponManager.HeldWeapon.HudPreview;
     }
 }

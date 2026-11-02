@@ -4392,6 +4392,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 2546249724458658943, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: Weapons.Array.data[0].HudPreview
+      value: 
+      objectReference: {fileID: 21300000, guid: 4e44cb947bbd9d543a21280c5a2eb50a, type: 3}
+    - target: {fileID: 2546249724458658943, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: Weapons.Array.data[1].HudPreview
+      value: 
+      objectReference: {fileID: 21300000, guid: 4e44cb947bbd9d543a21280c5a2eb50a, type: 3}
     - target: {fileID: 3041963916925506755, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.87795633
