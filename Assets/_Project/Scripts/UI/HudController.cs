@@ -28,9 +28,17 @@ public class HudController : MonoBehaviour
     [Header("Weapons")]
     [SerializeField] GameObject ammoText;
     [SerializeField] UnityEngine.UI.Image currentWeaponImage;
+    [SerializeField] GameObject chargeText;
+    [SerializeField] UnityEngine.UI.Slider weaponCharge;
+    [SerializeField] UnityEngine.UI.Image weaponChargeFill;
+    [SerializeField] Color chargeColor;
+    [SerializeField] Color gainChargeColor;
     [SerializeField] UnityEngine.UI.Image secondWeaponImage;
     [SerializeField] UnityEngine.UI.Image thirdWeaponImage;
-    
+    private float chargeFlashTime = 0.1f;
+    private float chargeFlashTimer = 0f;
+    private float lastCharge = 0f;
+
 
     [Header("References")]
     [SerializeField] PlayerMovement playerMovement;
@@ -42,7 +50,6 @@ public class HudController : MonoBehaviour
     [Tooltip("This is a temporary field for testing purposes. It will be removed when the player status is implemented.")]
     [SerializeField] float maxHealth = 100;
     [SerializeField] float playerHealth = 70;
-    public float dashCooldownPercent; //Using this to view the dash cooldown as a percent
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -88,11 +95,26 @@ public class HudController : MonoBehaviour
             dashFill.color = DashColor;
         }
 
-            dashCooldownPercent = dashCooldown.value; // Using this to present in the inspector for testing purposes
-
         //Weapons
         currentWeaponImage.sprite = weaponManager.HeldWeapon.HudPreview;
         ammoText.GetComponent<TextMeshProUGUI>().text = $"{weaponManager.HeldWeapon.CurrentAmmo}";
+        if (weaponManager.HeldWeapon.MaxAmmo > 0)
+        {
+            weaponCharge.value = weaponManager.HeldWeapon.CurrentAmmo / weaponManager.HeldWeapon.MaxAmmo; //Utilizing ammo because there is no charge system.
+        }
+        else
+        {
+            weaponCharge.value = 0;
+        }
+        
+        if (chargeFlashTimer > 0)
+        {
+            chargeFlashTimer -= Time.deltaTime;
+        }
+        else
+        {
+            weaponChargeFill.color = chargeColor;
+        }
     }
 
     void UpdateHealth(float newHealth)
@@ -106,7 +128,13 @@ public class HudController : MonoBehaviour
 
     void UpdateWeaponPreview()
     {
-
         currentWeaponImage.sprite = weaponManager.HeldWeapon.HudPreview;
+        ammoText.GetComponent<TextMeshProUGUI>().text = $"{weaponManager.HeldWeapon.CurrentAmmo}";
+    }
+
+    void updateWeaponCharge()
+    {
+        weaponChargeFill.color = gainChargeColor;
+        chargeFlashTimer = chargeFlashTime;
     }
 }
