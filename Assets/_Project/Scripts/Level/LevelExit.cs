@@ -4,21 +4,23 @@ using UnityEngine;
 
 public class LevelExit : MonoBehaviour
 {
-    [SerializeField] string playerTag = "Player";   //Player tag
-    [SerializeField] Material canExitColor; //The color for the block when you can exit
-    [SerializeField] Material cantExitColor;    //The color for the block when you can't exit
+    private bool canExit = false;   //Checks if the player is allowed to leave
 
-    private GameManager gameManager;    //The script for the game manager
+    [SerializeField] List<GameObject> enemyL = new List<GameObject>();  //Enemie list, doesn't need to stay in this script
+    [SerializeField] string playerTag = "Player";   //Player tag
+    [SerializeField] Material canExitColor;
+    [SerializeField] Material cantExitColor;
 
     void Start()
     {
-        gameManager = Object.FindFirstObjectByType<GameManager>();  //Finds the game manager script
+        
     }
 
     void Update()
     {
-        //If the player can exit, change the material color
-        if (gameManager.canExit == true)
+        DestroyEnemys();
+
+        if (canExit == true)
         {
             GetComponent<Renderer>().material = canExitColor;
         }
@@ -27,10 +29,30 @@ public class LevelExit : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // If the player is within the trigger range, the game ends
-        if (other.CompareTag(playerTag) && gameManager.canExit == true)
+        if (other.CompareTag(playerTag) && canExit == true)
         {
             Debug.Log("Game Over");
             Time.timeScale = 0.0f;
         }
     }
+
+    // Test function to see if your able to leave once there are no enemys left in the scene
+    private void DestroyEnemys()
+    {
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            for (int i = 0; i < enemyL.Count; i++)
+            {
+                Destroy(enemyL[i]);
+            }
+            enemyL.Clear();
+        }
+        // Checks if the enemie count is below zero and lets the player be able to exit if it is
+        if (enemyL.Count <= 0)
+        {
+            canExit = true;
+        }
+    }
+
+
 }
