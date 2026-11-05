@@ -39,6 +39,14 @@ public class HudController : MonoBehaviour
     private float chargeFlashTimer = 0f;
     private float lastCharge = 0f;
 
+    [Header("Tip Text")]
+    [SerializeField] GameObject tipBox;
+    [SerializeField] GameObject tipText;
+    public string tipDetails;
+    private float tipDisplayTime = 8f;
+    private float tipDisplayTimer = 0f;
+    private Vector2 tipBoxOriginalPosition = new Vector2(220, 310);
+    private Vector2 tipBoxExitPosition = new Vector2(-220, 310);
 
     [Header("References")]
     [SerializeField] PlayerMovement playerMovement;
@@ -115,6 +123,29 @@ public class HudController : MonoBehaviour
         {
             weaponChargeFill.color = chargeColor;
         }
+
+        //Tips
+        if (tipDisplayTimer > 0)
+        {
+            tipDisplayTimer -= Time.deltaTime;
+        }
+        else
+        {
+            tipBox.SetActive(false);
+        }
+        
+        if (tipDisplayTimer < 1f) //Moving the tip box off screen when it is about to disappear, and moving it on screen when it about to appear.
+        {
+            tipBox.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(tipBoxExitPosition, tipBoxOriginalPosition, tipDisplayTimer);
+        }
+        else if  (tipDisplayTimer > tipDisplayTime - 1f)
+        {
+            tipBox.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(tipBoxOriginalPosition, tipBoxExitPosition, tipDisplayTimer - (tipDisplayTime - 1f));
+        }
+        else
+        {
+            tipBox.GetComponent<RectTransform>().anchoredPosition = tipBoxOriginalPosition;
+        }
     }
 
     void UpdateHealth(float newHealth)
@@ -136,5 +167,12 @@ public class HudController : MonoBehaviour
     {
         weaponChargeFill.color = gainChargeColor;
         chargeFlashTimer = chargeFlashTime;
+    }
+
+    public void updateTip(string newTipDetails)
+    {
+        tipText.GetComponent<TextMeshProUGUI>().text = newTipDetails;
+        tipBox.SetActive(true);
+        tipDisplayTimer = tipDisplayTime;
     }
 }
