@@ -1,26 +1,30 @@
 using NUnit.Framework;
+using Project.Combat;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelExit : MonoBehaviour
 {
-    private bool canExit = false;   //Checks if the player is allowed to leave
-
-    [SerializeField] List<GameObject> enemyL = new List<GameObject>();  //Enemie list, doesn't need to stay in this script
     [SerializeField] string playerTag = "Player";   //Player tag
-    [SerializeField] Material canExitColor;
-    [SerializeField] Material cantExitColor;
+    [SerializeField] Material canExitColor; //Color of the object when you can leave
+    [SerializeField] Material cantExitColor;    //Color of the object when you can't leave
 
-    void Start()
+    private GameManager gameManager;    //The script for the game manager
+
+    void Awake()
     {
-        
+        //Finds the game manager object, and gets the script from it
+        GameObject gameManagerObj = GameObject.Find("GameManager");
+        gameManager = gameManagerObj.GetComponent<GameManager>();
     }
 
     void Update()
     {
-        DestroyEnemys();
+        gameManager.DestroyEnemys();
 
-        if (canExit == true)
+        //If you can exit, chnage the color to indicate it
+        if (gameManager.canExit == true)
         {
             GetComponent<Renderer>().material = canExitColor;
         }
@@ -29,30 +33,10 @@ public class LevelExit : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         // If the player is within the trigger range, the game ends
-        if (other.CompareTag(playerTag) && canExit == true)
+        if (other.CompareTag(playerTag) && gameManager.canExit == true)
         {
             Debug.Log("Game Over");
             Time.timeScale = 0.0f;
         }
-    }
-
-    // Test function to see if your able to leave once there are no enemys left in the scene
-    private void DestroyEnemys()
-    {
-        if (Input.GetKeyDown(KeyCode.B))
-        {
-            for (int i = 0; i < enemyL.Count; i++)
-            {
-                Destroy(enemyL[i]);
-            }
-            enemyL.Clear();
-        }
-        // Checks if the enemie count is below zero and lets the player be able to exit if it is
-        if (enemyL.Count <= 0)
-        {
-            canExit = true;
-        }
-    }
-
-
+    }    
 }

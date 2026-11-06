@@ -211,11 +211,6 @@ Transform:
   - {fileID: 257485222}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &257485221 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6922045232491636490, guid: 6493b74d24afec643817e402be79751f, type: 3}
-  m_PrefabInstance: {fileID: 5699303128514871218}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &257485222 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1247856411299668092, guid: 6493b74d24afec643817e402be79751f, type: 3}
@@ -536,15 +531,56 @@ Transform:
   - {fileID: 465690642}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1088560686
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1088560688}
+  - component: {fileID: 1088560687}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1088560687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088560686}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eefbc721f68079946980f1f977331928, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GameManager
+  canExit: 0
+  enemyL: []
+--- !u!4 &1088560688
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1088560686}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.99195, y: 0, z: -5.48415}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1216210911 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4603156116648498359, guid: fc5a676d2c90b3d4f8a22e369c35950d, type: 3}
   m_PrefabInstance: {fileID: 8354416668599502667}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1655791869 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1423137826805578054, guid: 0036c0fc6b37e6f41a3b835339081636, type: 3}
-  m_PrefabInstance: {fileID: 3884679325761523652}
   m_PrefabAsset: {fileID: 0}
 --- !u!4 &1655791870 stripped
 Transform:
@@ -792,9 +828,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acd7ca6cd6a07884db555f4c877046bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LevelExit
-  enemyL:
-  - {fileID: 1655791869}
-  - {fileID: 257485221}
   playerTag: Player
   canExitColor: {fileID: 2100000, guid: 27959ffd8b88c5345b63303df4cb5bc4, type: 2}
   cantExitColor: {fileID: 2100000, guid: 093127d0966e24e439c30b7c61d508f3, type: 2}
@@ -1128,3 +1161,4 @@ SceneRoots:
   - {fileID: 986586797}
   - {fileID: 1725170116}
   - {fileID: 208281997}
+  - {fileID: 1088560688}
