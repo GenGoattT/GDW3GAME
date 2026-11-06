@@ -41,8 +41,10 @@ public class HudController : MonoBehaviour
 
     [Header("Tip Text")]
     [SerializeField] GameObject tipBox;
+    [SerializeField] GameObject tipTitleText;
+    private string tipTitle;
     [SerializeField] GameObject tipText;
-    public string tipDetails;
+    private string tipDetails; 
     private float tipDisplayTime = 8f;
     private float tipDisplayTimer = 0f;
     private Vector2 tipBoxOriginalPosition = new Vector2(220, 310);
@@ -169,8 +171,9 @@ public class HudController : MonoBehaviour
         chargeFlashTimer = chargeFlashTime;
     }
 
-    public void updateTip(string newTipDetails)
+    public void updateTip(string tipTitle, string newTipDetails)
     {
+        tipTitleText.GetComponent<TextMeshProUGUI>().text = tipTitle;
         tipText.GetComponent<TextMeshProUGUI>().text = newTipDetails;
         tipBox.SetActive(true);
         tipDisplayTimer = tipDisplayTime;

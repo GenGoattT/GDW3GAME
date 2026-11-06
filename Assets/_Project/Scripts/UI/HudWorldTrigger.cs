@@ -3,6 +3,7 @@ using UnityEngine;
 public class HudWorldTrigger : MonoBehaviour
 {
     [SerializeField] private HudController HudController;
+    [SerializeField] private string tipTitle;
     [SerializeField] private string tipDetails;
 
     void Start()
@@ -17,7 +18,7 @@ public class HudWorldTrigger : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            HudController.updateTip(tipDetails);
+            HudController.updateTip(tipTitle, tipDetails);
         }
     }
 }
