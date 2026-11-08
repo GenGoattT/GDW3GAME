@@ -15,16 +15,16 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.55, g: 0.65, b: 0.78, a: 1}
+  m_FogColor: {r: 0.72, g: 0.8, b: 0.88, a: 1}
   m_FogMode: 3
-  m_FogDensity: 0.006
+  m_FogDensity: 0.01
   m_LinearFogStart: 0
   m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.32, g: 0.38, b: 0.5, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_AmbientSkyColor: {r: 0.55, g: 0.65, b: 0.8, a: 1}
+  m_AmbientEquatorColor: {r: 0.42, g: 0.48, b: 0.58, a: 1}
+  m_AmbientGroundColor: {r: 0.25, g: 0.28, b: 0.34, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -4669,6 +4669,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_ClearFlags
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_BackGroundColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_BackGroundColor.b
+      value: 0.88
+      objectReference: {fileID: 0}
+    - target: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_BackGroundColor.g
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_BackGroundColor.r
+      value: 0.72
+      objectReference: {fileID: 0}
     - target: {fileID: 8511107487743413277, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       propertyPath: wallJumpForce
       value: 11
@@ -4676,7 +4696,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3911874751743835562, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1258222385}
   m_SourcePrefab: {fileID: 100100000, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
 --- !u!1 &549529167
 GameObject:
@@ -9993,6 +10016,48 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1241299154}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1258222383 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3911874751743835562, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+  m_PrefabInstance: {fileID: 536147422}
+  m_PrefabAsset: {fileID: 0}
+--- !u!20 &1258222384 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+  m_PrefabInstance: {fileID: 536147422}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1258222385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258222383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 332730e6cad50234fb67d8d4dbbe63b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Effects.SpeedLines
+  player: {fileID: 1386644039}
+  lineMaterial: {fileID: 2100000, guid: 5ac533a8162dfd44c80f17c54fb4437e, type: 2}
+  lineColor: {r: 0.82, g: 0.93, b: 1, a: 0.9}
+  lineWidth: {x: 0.02, y: 0.05}
+  lineLength: 40
+  velocityStretch: 0.03
+  lifetime: {x: 0.16, y: 0.28}
+  travelSpeed: {x: 30, y: 55}
+  ringDistance: 6
+  ringRadius: 7
+  ringThickness: 0.7
+  ringJitter: 1.5
+  dashIntensity: 1
+  slideIntensity: 0.7
+  fadeInSpeed: 40
+  fadeOutSpeed: 9
+  maxEmissionRate: 320
+  dashBurstCount: 70
+  slideBurstCount: 30
+  maxParticles: 600
 --- !u!1 &1267647081
 GameObject:
   m_ObjectHideFlags: 0
@@ -10461,7 +10526,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.85, g: 0.9, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -10827,6 +10892,22 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1364487437}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1386644039 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8511107487743413277, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+  m_PrefabInstance: {fileID: 536147422}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c1c6f33b8992e7e498abd8e59c2a8986, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Player.PlayerMovement
+--- !u!4 &1386644040 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3041963916925506755, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+  m_PrefabInstance: {fileID: 536147422}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1413990149
 GameObject:
   m_ObjectHideFlags: 0
@@ -12926,6 +13007,117 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1654757988}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &1661630540
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1661630542}
+  - component: {fileID: 1661630541}
+  m_Layer: 0
+  m_Name: Snowfall
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1661630541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661630540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b348435ef61220544bc9783d1891956b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Effects.SnowfallController
+  follow: {fileID: 1386644040}
+  dotMaterial: {fileID: 2100000, guid: bdc60af876cae9748ada205dc4dc7ef2, type: 2}
+  flakeMaterial: {fileID: 2100000, guid: 70a154a98af5afa43b85e13613bc7192, type: 2}
+  intensity: 1
+  snowColor: {r: 0.96, g: 0.98, b: 1, a: 1}
+  verticalBelow: 6
+  windDirection: {x: 1, y: 0, z: 0.35}
+  windStrength: 1.4
+  gustAmount: 0.6
+  gustSpeed: 0.11
+  leadTime: 1
+  maxLead: 14
+  reduceUnderCover: 1
+  shelterCheckHeight: 18
+  shelteredAmount: 0.08
+  shelterMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  collisionMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  layers:
+  - label: Far
+    targetCount: 1500
+    areaSize: 90
+    columnHeight: 34
+    sizeRange: {x: 0.07, y: 0.14}
+    fallSpeedRange: {x: 1, y: 1.8}
+    lifetimeRange: {x: 8, y: 12}
+    alpha: 0.6
+    sway: 0.35
+    swayFrequency: 0.15
+    windScale: 1
+    spin: 0
+    maxScreenSize: 0.012
+    useFlakeTexture: 0
+    collide: 0
+  - label: Mid
+    targetCount: 700
+    areaSize: 55
+    columnHeight: 26
+    sizeRange: {x: 0.12, y: 0.22}
+    fallSpeedRange: {x: 1.4, y: 2.4}
+    lifetimeRange: {x: 6, y: 9}
+    alpha: 0.75
+    sway: 0.6
+    swayFrequency: 0.2
+    windScale: 1.1
+    spin: 0
+    maxScreenSize: 0.03
+    useFlakeTexture: 0
+    collide: 1
+  - label: Near
+    targetCount: 110
+    areaSize: 24
+    columnHeight: 18
+    sizeRange: {x: 0.28, y: 0.55}
+    fallSpeedRange: {x: 2, y: 3.2}
+    lifetimeRange: {x: 4, y: 6}
+    alpha: 0.4
+    sway: 0.9
+    swayFrequency: 0.25
+    windScale: 1.25
+    spin: 60
+    maxScreenSize: 0.07
+    useFlakeTexture: 1
+    collide: 1
+--- !u!4 &1661630542
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661630540}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1684981568
 GameObject:
   m_ObjectHideFlags: 0
@@ -15005,6 +15197,63 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!1 &1942714185
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1942714187}
+  - component: {fileID: 1942714186}
+  m_Layer: 0
+  m_Name: WinterEnvironment
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1942714186
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942714185}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4306176dedbbc9a47b269b82e5b3bea3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Effects.WinterEnvironment
+  applyOnStart: 1
+  applyFog: 1
+  fogColor: {r: 0.72, g: 0.8, b: 0.88, a: 1}
+  fogDensity: 0.01
+  applyAmbient: 1
+  ambientSky: {r: 0.55, g: 0.65, b: 0.8, a: 1}
+  ambientEquator: {r: 0.42, g: 0.48, b: 0.58, a: 1}
+  ambientGround: {r: 0.25, g: 0.28, b: 0.34, a: 1}
+  applyCameraBackground: 1
+  targetCamera: {fileID: 1258222384}
+  applySunTint: 1
+  sun: {fileID: 1321498333}
+  sunColor: {r: 0.85, g: 0.9, b: 1, a: 1}
+--- !u!4 &1942714187
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942714185}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1971095743
 GameObject:
   m_ObjectHideFlags: 0
@@ -15808,3 +16057,5 @@ SceneRoots:
   - {fileID: 340560898}
   - {fileID: 968167398}
   - {fileID: 1233581629}
+  - {fileID: 1661630542}
+  - {fileID: 1942714187}
