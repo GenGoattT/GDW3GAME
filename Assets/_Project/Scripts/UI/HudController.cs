@@ -49,6 +49,7 @@ public class HudController : MonoBehaviour
     private float tipDisplayTimer = 0f;
     private Vector2 tipBoxOriginalPosition = new Vector2(220, 310);
     private Vector2 tipBoxExitPosition = new Vector2(-220, 310);
+    private bool tipActive = false;
 
     [Header("References")]
     [SerializeField] PlayerMovement playerMovement;
@@ -136,17 +137,19 @@ public class HudController : MonoBehaviour
             tipBox.SetActive(false);
         }
         
-        if (tipDisplayTimer < 1f) //Moving the tip box off screen when it is about to disappear, and moving it on screen when it about to appear.
+        if (tipDisplayTimer < 1f) //Moves off screen
         {
             tipBox.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(tipBoxExitPosition, tipBoxOriginalPosition, tipDisplayTimer);
+            tipActive = false;
         }
-        else if  (tipDisplayTimer > tipDisplayTime - 1f)
+        else if  (tipDisplayTimer > tipDisplayTime - 1f && !tipActive) //Moves on screen
         {
             tipBox.GetComponent<RectTransform>().anchoredPosition = Vector2.Lerp(tipBoxOriginalPosition, tipBoxExitPosition, tipDisplayTimer - (tipDisplayTime - 1f));
         }
-        else
+        else //Remains on screen
         {
             tipBox.GetComponent<RectTransform>().anchoredPosition = tipBoxOriginalPosition;
+            tipActive = true;
         }
     }
 
