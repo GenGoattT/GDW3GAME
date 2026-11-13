@@ -981,7 +981,7 @@ RectTransform:
   m_Father: {fileID: 379552405}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 5.000001, y: 0}
   m_SizeDelta: {x: 19.999998, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -4007,7 +4007,7 @@ RectTransform:
   m_Father: {fileID: 1183541209}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 4.625, y: 0}
   m_SizeDelta: {x: 19.25, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -5097,9 +5097,17 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 203341347403560736, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1908669403006377672, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 2209073672903646318, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2546249724458658943, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       propertyPath: Weapons.Array.data[0].HudPreview
@@ -5147,6 +5155,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3041963916925506755, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4133063363901439386, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
@@ -7537,7 +7549,7 @@ RectTransform:
   m_Father: {fileID: 1485910023}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 4.6249995, y: 0}
   m_SizeDelta: {x: 19.25, y: 4}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -8248,7 +8260,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2003365336
 MonoBehaviour:
   m_ObjectHideFlags: 0
