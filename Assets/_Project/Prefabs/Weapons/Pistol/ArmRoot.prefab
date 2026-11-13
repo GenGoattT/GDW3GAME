@@ -52,6 +52,7 @@ MonoBehaviour:
   Name: 
   CurrentAmmo: 0
   MaxAmmo: 0
+  HudPreview: {fileID: 21300000, guid: 4e44cb947bbd9d543a21280c5a2eb50a, type: 3}
   damage: 10
   fireCooldown: 0.25
   inputBufferTime: 0.15
