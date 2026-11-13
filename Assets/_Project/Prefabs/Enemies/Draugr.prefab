@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 9096017373536569069}
   - component: {fileID: 6551187763296484151}
   - component: {fileID: 173700821867429876}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Draugr
   m_TagString: enemy
   m_Icon: {fileID: 0}
