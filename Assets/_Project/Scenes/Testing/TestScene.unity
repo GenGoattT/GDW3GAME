@@ -211,12 +211,12 @@ GameObject:
   - component: {fileID: 15450809}
   - component: {fileID: 15450808}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: DashText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &15450807
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1589,39 +1589,6 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 499925387}
-  - {fileID: 1930616884}
-  m_Father: {fileID: 997440431}
-  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
---- !u!1 &364454665
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 364454666}
-  - component: {fileID: 364454667}
-  m_Layer: 5
-  m_Name: DashBar
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!224 &364454666
-RectTransform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 364454665}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 499925387}
   - {fileID: 1930616884}
@@ -3248,9 +3215,9 @@ RectTransform:
   - {fileID: 364454666}
   m_Father: {fileID: 2003365339}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0}
-  m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: -600, y: -440}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 360, y: -440}
   m_SizeDelta: {x: 170, y: -1040}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &712243210
@@ -4019,7 +3986,7 @@ GameObject:
   - component: {fileID: 809271224}
   - component: {fileID: 809271223}
   m_Layer: 5
-  m_Name: Fill
+  m_Name: DashFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6026,7 +5993,7 @@ GameObject:
   - component: {fileID: 1371816199}
   - component: {fileID: 1371816198}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: HealthText (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7549,7 +7516,7 @@ GameObject:
   - component: {fileID: 1755803283}
   - component: {fileID: 1755803282}
   m_Layer: 5
-  m_Name: Fill
+  m_Name: HealthFill
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8380,11 +8347,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HudController
   healthBar: {fileID: 798800921}
-  healthText: {fileID: 0}
-  ammoText: {fileID: 0}
-  currentWeaponImage: {fileID: 0}
-  secondWeaponImage: {fileID: 0}
-  thirdWeaponImage: {fileID: 0}
+  healthText: {fileID: 1371816196}
+  healthFill: {fileID: 1755803282}
+  HealthColor: {r: 0.9607844, g: 0, b: 0, a: 1}
+  FlashColor: {r: 0.93710685, g: 0.25637817, b: 0.4397708, a: 1}
+  dashText: {fileID: 15450806}
   dashCooldown: {fileID: 364454667}
   dashFill: {fileID: 809271223}
   DashColor: {r: 0, g: 0.56078434, b: 0.9607844, a: 1}
