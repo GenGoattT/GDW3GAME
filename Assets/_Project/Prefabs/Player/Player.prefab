@@ -503,7 +503,7 @@ MonoBehaviour:
   playerCamera: {fileID: 8913937523463501916}
   dashKey: 304
   slideKey: 306
-  moveSpeed: 9
+  moveSpeed: 10.5
   groundAcceleration: 14
   groundFriction: 8
   airAcceleration: 50
@@ -512,21 +512,21 @@ MonoBehaviour:
   jumpForce: 10
   coyoteTime: 0.12
   jumpBufferTime: 0.12
-  gravity: -28
+  gravity: -30
   fallMultiplier: 1.6
-  wallJumpForce: 12
+  wallJumpForce: 13
   wallJumpPush: 11
   maxWallJumps: 3
   wallContactGrace: 0.12
   wallMaxNormalY: 0.3
   dashSpeed: 22
   dashDuration: 0.18
-  maxDashCharges: 1
+  maxDashCharges: 2
   dashRegenTime: 0.6
   dashUpwardBoost: 1
-  maxHorizontalSpeed: 16
-  slideSpeedBoost: 1.35
-  slideImpulse: 14
+  maxHorizontalSpeed: 17
+  slideSpeedBoost: 1.4
+  slideImpulse: 15
   slideFriction: 1.5
   minSlideSpeed: 4
   slideHopBoost: 1.1
