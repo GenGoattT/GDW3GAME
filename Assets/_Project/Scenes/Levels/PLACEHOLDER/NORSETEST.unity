@@ -4406,6 +4406,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2357674327995641171, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_RenderPostProcessing
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2546249724458658943, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       propertyPath: Weapons.Array.data[0].Name
       value: Basic Pistol
@@ -4487,6 +4491,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: m_AllowMSAA
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6886057189274659122, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       propertyPath: m_ClearFlags
       value: 2
       objectReference: {fileID: 0}
@@ -4523,6 +4531,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3911874751743835562, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1258222385}
+    - targetCorrespondingSourceObject: {fileID: 3911874751743835562, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1258222386}
   m_SourcePrefab: {fileID: 100100000, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
 --- !u!1 &549529167
 GameObject:
@@ -10129,6 +10140,28 @@ MonoBehaviour:
   dashBurstCount: 70
   slideBurstCount: 30
   maxParticles: 600
+--- !u!114 &1258222386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1258222383}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0daf6c9da1f112349962cd1f3b5cf80f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UltrakillstylePostEffect
+  shader: {fileID: 4800000, guid: 57574d3e747aa3547ae700f2b08ba2fb, type: 3}
+  targetHeight: 270
+  colorSteps: 24
+  ditherStrength: 1
+  saturation: 1.25
+  contrast: 1.15
+  brightness: 1.05
+  vignetteStrength: 0.9
+  shadowTint: {r: 0.85, g: 0.88, b: 1, a: 1}
+  highlightTint: {r: 1, g: 0.97, b: 0.9, a: 1}
 --- !u!1 &1267647081
 GameObject:
   m_ObjectHideFlags: 0
