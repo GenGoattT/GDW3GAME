@@ -7,7 +7,9 @@ public class GameManager : MonoBehaviour
 {
     public bool canExit = false;   //Checks if the player is allowed to leave
 
-    [SerializeField] List<GameObject> enemyL = new List<GameObject>();  //Enemy list
+    public List<GameObject> enemyL = new List<GameObject>();  //Enemy list
+
+    public 
 
     void Awake()
     {
