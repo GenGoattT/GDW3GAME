@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2506161230403439916}
   - component: {fileID: 6749199522038887874}
   - component: {fileID: 4785012452919035636}
+  - component: {fileID: 6114165364262962824}
   m_Layer: 0
   m_Name: IceGiant
   m_TagString: enemy
@@ -213,6 +214,22 @@ MonoBehaviour:
   throwRetryDelay: 1
   clubTint: {r: 1, g: 0.35, b: 0.25, a: 1}
   throwTint: {r: 0.5803222, g: 0.7142546, b: 0.764151, a: 1}
+--- !u!114 &6114165364262962824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1423137826805578054}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbb9bb2d80b6f243b8622969323c441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckpointData
+  oldPlayerLocation: {x: 0, y: 0, z: 0}
+  oldEnemyLocation: {x: 0, y: 0, z: 0}
+  oldEnemyRotation: {x: 0, y: 0, z: 0, w: 0}
+  oldHealth: 0
 --- !u!1 &1793169488834211712
 GameObject:
   m_ObjectHideFlags: 0

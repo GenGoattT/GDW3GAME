@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 9096017373536569069}
   - component: {fileID: 6551187763296484151}
   - component: {fileID: 173700821867429876}
+  - component: {fileID: 1603160988167980953}
   m_Layer: 7
   m_Name: Draugr
   m_TagString: enemy
@@ -189,3 +190,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 8
   windupTint: {r: 1, g: 0.54494715, b: 0.4764151, a: 1}
+--- !u!114 &1603160988167980953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6922045232491636490}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbb9bb2d80b6f243b8622969323c441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckpointData
+  oldPlayerLocation: {x: 0, y: 0, z: 0}
+  oldEnemyLocation: {x: 0, y: 0, z: 0}
+  oldEnemyRotation: {x: 0, y: 0, z: 0, w: 0}
+  oldHealth: 0

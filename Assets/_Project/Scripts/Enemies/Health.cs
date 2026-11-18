@@ -42,5 +42,11 @@ namespace Project.Combat
             if (IsDead) return;
             CurrentHealth = Mathf.Min(maxHealth, CurrentHealth + amount);
         }
+
+        //Adds a revive option for dead enemies for checkpoints
+        public void Revive()
+        {
+            IsDead = false;
+        }
     }
 }
