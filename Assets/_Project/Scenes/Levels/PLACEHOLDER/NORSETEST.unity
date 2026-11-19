@@ -4515,6 +4515,10 @@ PrefabInstance:
       value: 0.72
       objectReference: {fileID: 0}
     - target: {fileID: 8511107487743413277, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
+      propertyPath: maxWallJumps
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8511107487743413277, guid: 1c5fa9d8be5ae534aa96577f432c6aee, type: 3}
       propertyPath: wallJumpForce
       value: 11
       objectReference: {fileID: 0}
@@ -8546,6 +8550,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CheckpointData
   oldPlayerLocation: {x: 0, y: 0, z: 0}
+  oldEnemyLocation: {x: 0, y: 0, z: 0}
+  oldEnemyRotation: {x: 0, y: 0, z: 0, w: 0}
+  oldHealth: 0
+  wasDead: 0
 --- !u!1 &1143718047
 GameObject:
   m_ObjectHideFlags: 0
@@ -10152,7 +10160,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0daf6c9da1f112349962cd1f3b5cf80f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UltrakillstylePostEffect
-  shader: {fileID: 4800000, guid: 57574d3e747aa3547ae700f2b08ba2fb, type: 3}
+  shader: {fileID: 0}
   targetHeight: 270
   colorSteps: 24
   ditherStrength: 1
