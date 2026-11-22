@@ -42,6 +42,32 @@ namespace Project.Enemies
 
         protected virtual Color RestingTint => BaseColor;
 
+        public bool IsExternallyMoved { get; private set; }
+        public bool IsEnemyDead => EnemyHealth != null && EnemyHealth.IsDead;
+
+        public void BeginExternalMove()
+        {
+            IsExternallyMoved = true;
+            if (Agent != null && Agent.enabled) Agent.enabled = false;
+        }
+
+        public void EndExternalMove()
+        {
+            IsExternallyMoved = false;
+            if (IsDead || Agent == null) return;
+
+            if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 6f, NavMesh.AllAreas))
+            {
+                transform.position = hit.position;
+                Agent.enabled = true;
+                Agent.Warp(hit.position);
+            }
+            else
+            {
+                Agent.enabled = true;
+            }
+        }
+
 
         protected virtual void Awake()
         {
@@ -87,7 +113,7 @@ namespace Project.Enemies
         {
             UpdateFlash();
 
-            if (IsDead || target == null) return;
+            if (IsDead || target == null || IsExternallyMoved) return;
 
             Vector3 toTarget = target.position - transform.position;
             toTarget.y = 0f;
@@ -101,8 +127,6 @@ namespace Project.Enemies
 
             Tick(toTarget, dist);
         }
-
-      // hooks
 
         protected abstract void Tick(Vector3 toTarget, float distanceToTarget);
 
@@ -122,7 +146,7 @@ namespace Project.Enemies
 
         private void HandleDamaged(float amount, Vector3 hitPoint, Vector3 hitDirection)
         {
-            Alert(); // getting shot wakes it up
+            Alert();
 
             if (bodyMat != null)
             {
@@ -147,7 +171,7 @@ namespace Project.Enemies
         private IEnumerator DeathRoutine()
         {
             Quaternion start = transform.rotation;
-            Quaternion end = start * Quaternion.Euler(-90f, 0f, 0f); // topple backwards
+            Quaternion end = start * Quaternion.Euler(-90f, 0f, 0f);
 
             for (float t = 0f; t < deathFallTime; t += Time.deltaTime)
             {

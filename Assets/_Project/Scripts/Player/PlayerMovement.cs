@@ -42,9 +42,9 @@ namespace Project.Player
         [Header("Dash")]
         [SerializeField] private float dashSpeed = 22f;
         [SerializeField] private float dashDuration = 0.18f;
-        [SerializeField] public int maxDashCharges = 1; //Changed this to public so that the HUD can access it for the dash cooldown display.
+        [SerializeField] public int maxDashCharges = 1;
         [Tooltip("Charges also slowly regenerate mid-air on this cooldown so you're never permanently stuck without one during a long fall. Landing always fully refills.")]
-        [SerializeField] public float dashRegenTime = 0.6f; //Changed this to public so that the HUD can access it for the dash cooldown display.
+        [SerializeField] public float dashRegenTime = 0.6f;
         [SerializeField] private float dashUpwardBoost = 1f;
 
         [Header("Speed Limit")]
@@ -76,21 +76,46 @@ namespace Project.Player
         private bool isSliding;
         private float currentHeight;
 
-        public int dashCharges; //Changed this to public so that the HUD can access it for the dash cooldown display.
+        public int dashCharges;
         private bool isDashing;
         private float dashTimer;
         private Vector3 dashDirection;
-        public float dashRegenTimer; //Changed this to public so that the HUD can access it for the dash cooldown display.
+        public float dashRegenTimer;
 
         private Vector3 wallNormal;
         private float wallContactTimer;
         private int wallJumpsUsed;
 
         public bool IsSliding => isSliding;
-        public bool IsDashing => isDashing;
+        public bool IsDashing => isDashing || MovementLocked;
         public bool IsGrounded => isGrounded;
         public int WallJumpsRemaining => Mathf.Max(0, maxWallJumps - wallJumpsUsed);
         public Vector3 HorizontalVelocity => new Vector3(velocity.x, 0f, velocity.z);
+        public bool MovementLocked { get; private set; }
+        public CharacterController Controller => controller;
+
+        public void LockMovement()
+        {
+            MovementLocked = true;
+            if (isSliding) EndSlide();
+            isDashing = false;
+            velocity = Vector3.zero;
+            verticalVelocity = 0f;
+        }
+
+        public void UnlockMovement(Vector3 launchVelocity, bool refreshMobility)
+        {
+            MovementLocked = false;
+            velocity = launchVelocity;
+            verticalVelocity = launchVelocity.y;
+            jumpBufferTimer = 0f;
+
+            if (refreshMobility)
+            {
+                dashCharges = maxDashCharges;
+                wallJumpsUsed = 0;
+            }
+        }
 
         private void Awake()
         {
@@ -103,6 +128,13 @@ namespace Project.Player
 
         private void Update()
         {
+            if (MovementLocked)
+            {
+                UpdateCrouchHeight();
+                wasGroundedLastFrame = false;
+                return;
+            }
+
             CheckGround();
             HandleTimers();
             HandleSlideInput();
