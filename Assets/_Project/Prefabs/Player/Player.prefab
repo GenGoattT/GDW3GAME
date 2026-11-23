@@ -3114,8 +3114,8 @@ MonoBehaviour:
   Weapons:
   - Name: PlaceholderGun
     Object: {fileID: 67740495777944346, guid: ccee4d091683f714eb00838e36fd12e4, type: 3}
-  - Name: PlaceholderGun2
-    Object: {fileID: 67740495777944346, guid: df69a74fca3683f4eb67a702244ac34c, type: 3}
+  - Name: Gleipnir Wire Shotgun
+    Object: {fileID: 67740495777944346, guid: 4b4bfcb4259845209f3da427b674f1ff, type: 3}
   HeldWeapon: {fileID: 0}
 --- !u!1 &8604965774006988391
 GameObject:

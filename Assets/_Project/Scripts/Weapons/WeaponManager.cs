@@ -5,6 +5,7 @@ using Project.Player;
 public enum WeaponIds
 {
     PlaceHolderGun = 0,
+    GleipnirShotgun = 1,
 }
 public class WeaponManager : MonoBehaviour
 {
@@ -12,7 +13,7 @@ public class WeaponManager : MonoBehaviour
 
     [SerializeField] private List<WeaponInstanceData> HeldWeapons;
 
-    public Weapon HeldWeapon = null; //Changed this to public so that the HUD can access it for the weapon preview.
+    public Weapon HeldWeapon = null;
 
     public Camera AimCamera { get; private set; }
     public Transform PlayerRoot { get; private set; }
@@ -41,6 +42,10 @@ public class WeaponManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             PlayerTrysToFire();
+        }
+        if (Input.GetMouseButtonDown(1) && HeldWeapon != null)
+        {
+            HeldWeapon.PlayerTriesToAltFire();
         }
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
