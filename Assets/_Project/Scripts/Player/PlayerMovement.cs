@@ -1,4 +1,5 @@
 using UnityEngine;
+using Project.Tutorial;
 
 namespace Project.Player
 {
@@ -235,6 +236,7 @@ namespace Project.Player
                 verticalVelocity = jumpForce;
                 jumpBufferTimer = 0f;
                 coyoteTimer = 0f;
+                ActionFeed.Raise(PlayerAction.Jump, this);
             }
         }
 
@@ -326,6 +328,7 @@ namespace Project.Player
             }
 
             if (playerCamera != null) playerCamera.OnSlideStart();
+            ActionFeed.Raise(PlayerAction.Slide, this);
         }
 
         private void EndSlide()
@@ -386,6 +389,7 @@ namespace Project.Player
                 verticalVelocity = Mathf.Max(verticalVelocity, dashUpwardBoost);
 
             if (playerCamera != null) playerCamera.OnDash();
+            ActionFeed.Raise(PlayerAction.Dash, this);
         }
 
         private void DashMove()
@@ -428,6 +432,7 @@ namespace Project.Player
             isDashing = false;
 
             if (playerCamera != null) playerCamera.OnWallJump(wallNormal);
+            ActionFeed.Raise(PlayerAction.WallJump, this);
         }
 
         private void ApplyGravity()

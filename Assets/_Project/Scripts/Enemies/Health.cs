@@ -7,6 +7,10 @@ namespace Project.Combat
     public class Health : MonoBehaviour, IDamageable
     {
         [SerializeField] private float maxHealth = 30f;
+        [Tooltip("Seconds of invulnerability after taking a hit. Leave at 0 for enemies.")]
+        [SerializeField] private float invulnerableTime = 0f;
+
+        private float lastHitTime = float.NegativeInfinity;
 
         [Header("Inspector Hooks")]
         public UnityEvent onDied;
@@ -25,6 +29,8 @@ namespace Project.Combat
         public void TakeDamage(float amount, Vector3 hitPoint, Vector3 hitDirection)
         {
             if (IsDead || amount <= 0f) return;
+            if (Time.time - lastHitTime < invulnerableTime) return;
+            lastHitTime = Time.time;
 
             CurrentHealth = Mathf.Max(0f, CurrentHealth - amount);
             Damaged?.Invoke(amount, hitPoint, hitDirection);

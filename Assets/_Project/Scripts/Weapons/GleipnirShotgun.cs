@@ -1,3 +1,4 @@
+using Project.Audio;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -89,7 +90,7 @@ public class GleipnirShotgun : MonoBehaviour, IWeaponPrimaryFire, IWeaponAltFire
     private void OnEnable()
     {
         equipT = 0f;
-        ShardFX.Play(equipClip, transform.position, 0.8f);
+        GameAudio.Play(equipClip, SfxId.GleipnirEquip, transform.position, 0.8f);
     }
 
     private void BuildModel()
@@ -255,7 +256,7 @@ public class GleipnirShotgun : MonoBehaviour, IWeaponPrimaryFire, IWeaponAltFire
         ShardFX.Burst(muzzlePos, fwd, Color.white, 6, 3f, 0.5f, 0.07f, 25f, 0f, false);
         ShardFX.Burst(muzzlePos, fwd + Vector3.up * 0.3f, new Color(0.6f, 0.57f, 0.55f, 0.35f), 5, 1.2f, 0.4f, 0.7f, 30f, -0.08f, false);
         ShardFX.Flash(muzzlePos, wireColor, 7f, 7f, 0.09f);
-        ShardFX.Play(fireClip, muzzlePos, 1f);
+        GameAudio.Play(fireClip, SfxId.ShotgunFire, muzzlePos, 1f);
 
         float hitBonus = victims.Count > 0 ? 0.8f : 0f;
         ShardFX.CameraShake(fireShake + hitBonus + kills * 1.2f, 0.18f);
@@ -351,7 +352,7 @@ public class GleipnirShotgun : MonoBehaviour, IWeaponPrimaryFire, IWeaponAltFire
         ShardFX.Burst(muzzlePos, dir, wireColor, 18, 10f, 0.13f, 0.2f, 15f, 0f, true);
         ShardFX.Burst(muzzlePos, dir, new Color(0.6f, 0.57f, 0.55f, 0.45f), 8, 2f, 0.5f, 0.6f, 25f, -0.08f, false);
         ShardFX.Flash(muzzlePos, wireColor, 6f, 6f, 0.1f);
-        ShardFX.Play(stakeFireClip, muzzlePos, 1f);
+        GameAudio.Play(stakeFireClip, SfxId.StakeFire, muzzlePos, 1f);
         ShardFX.CameraShake(stakeShake, 0.2f);
         ShardFX.CameraPunch(fireFov - 2f, 0.05f);
 

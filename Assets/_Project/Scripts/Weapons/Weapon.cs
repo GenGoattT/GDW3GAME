@@ -1,3 +1,4 @@
+using Project.Audio;
 using UnityEngine;
 using Project.Combat;
 
@@ -38,6 +39,7 @@ public class Weapon : MonoBehaviour
     [SerializeField] private GameObject impactEffect;
 
     [SerializeField] private bool hasShardAltFire = true;
+    [SerializeField] private AudioClip fireClip;
 
     private float cooldownTimer;
     private float bufferTimer;
@@ -67,12 +69,13 @@ public class Weapon : MonoBehaviour
         muzzlePoint = muzzle;
     }
 
-    public void PlayAnimationState(string stateName)
+    public bool PlayAnimationState(string stateName)
     {
-        if (Animator == null || string.IsNullOrEmpty(stateName)) return;
+        if (Animator == null || string.IsNullOrEmpty(stateName)) return false;
         int hash = Animator.StringToHash(stateName);
-        if (!Animator.HasState(0, hash)) return;
+        if (!Animator.HasState(0, hash)) return false;
         Animator.Play(hash, 0, 0f);
+        return true;
     }
 
     public Vector3 GetMuzzlePosition(Camera cam)
@@ -117,6 +120,7 @@ public class Weapon : MonoBehaviour
 
         cooldownTimer = fireCooldown;
         PlayFireAnimation();
+        GameAudio.Play(fireClip, SfxId.PistolFire, transform.position);
         FireHitscan();
     }
 
@@ -132,7 +136,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void PlayFireAnimation()
+    public void PlayFireAnimation()
     {
         if (Animator == null) return;
         if (!Animator.HasState(0, fireStateHash)) return;

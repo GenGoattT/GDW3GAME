@@ -1,3 +1,4 @@
+using Project.Audio;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -74,7 +75,7 @@ public class GleipnirSnap : MonoBehaviour
         a.Flare();
         b.Flare();
         wire.Twang(0.5f);
-        ShardFX.Play(settings.tensionClip, b.transform.position, 1f);
+        GameAudio.Play(settings.tensionClip, SfxId.SnapTension, b.transform.position, 1f);
         ShardFX.CameraShake(0.9f, 0.12f);
 
         float t = 0f;
@@ -306,7 +307,7 @@ public class GleipnirSnap : MonoBehaviour
         ShardFX.Burst(p, n, new Color(0.75f, 0.1f, 0.08f, 1f), 24, 10f, 0.2f, 0.6f, 90f, 2f, true);
         ShardFX.Ring(p, color, 0.6f, 6f * s, 0.4f, true);
         ShardFX.Flash(p, color, 16f, 14f, 0.3f);
-        ShardFX.Play(settings.impactClip, p, 1f);
+        GameAudio.Play(settings.impactClip, SfxId.SnapImpact, p, 1f);
         ShardFX.CameraShakeAt(p, 3.5f * s, 0.35f, 45f);
         ShardFX.CameraPunch(108f, 0.06f);
 
@@ -314,7 +315,7 @@ public class GleipnirSnap : MonoBehaviour
         {
             ShardFX.Burst(p, Vector3.up, new Color(1f, 0.35f, 0.25f, 1f), 45, 15f, 0.3f, 0.7f, 180f, 1.6f, true);
             ShardFX.Ring(p, Color.white, 1f, 9f, 0.5f, true);
-            ShardFX.Play(settings.killClip, p, 1f);
+            GameAudio.Play(settings.killClip, SfxId.SnapKill, p, 1f);
             ShardFX.CameraShake(5f, 0.45f);
             HitStop.Do(settings.killHitstop);
         }
@@ -404,7 +405,7 @@ public class GleipnirSnap : MonoBehaviour
     {
         Dictionary<IDamageable, float> nextHit = new Dictionary<IDamageable, float>();
         float t = 0f;
-        ShardFX.Play(settings.tripwireClip, (a.WireAttach + b.WireAttach) * 0.5f, 1f);
+        GameAudio.Play(settings.tripwireClip, SfxId.Tripwire, (a.WireAttach + b.WireAttach) * 0.5f, 1f);
 
         while (t < settings.tripwireDuration && Valid(a) && Valid(b))
         {

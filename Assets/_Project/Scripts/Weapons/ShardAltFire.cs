@@ -1,3 +1,4 @@
+using Project.Audio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -189,12 +190,12 @@ public class ShardAltFire : MonoBehaviour, IWeaponAltFire
         if (dir.sqrMagnitude < 0.0001f || Vector3.Dot(dir, ray.direction) <= 0f) dir = ray.direction;
         dir.Normalize();
 
-        weapon.PlayAnimationState("Fire");
+        weapon.PlayFireAnimation();
 
         ShardFX.Burst(muzzle, dir, shard.color, 14, 9f, 0.12f, 0.18f, 18f, 0f, true);
         ShardFX.Burst(muzzle, dir, Color.white, 4, 2f, 0.45f, 0.08f, 10f, 0f, false);
         ShardFX.Flash(muzzle, shard.color, 5f, 5f, 0.08f);
-        ShardFX.Play(fireClip, muzzle, 0.9f);
+        GameAudio.Play(fireClip, SfxId.ShardThrow, muzzle, 0.9f);
         Shake(fireShake, 0.12f);
 
         activeShard = SwordShard.Spawn(muzzle, dir, shard, hitMask, player.transform);
@@ -222,7 +223,7 @@ public class ShardAltFire : MonoBehaviour, IWeaponAltFire
             playerCamera.PunchFov(zipFov, zipMaxDuration);
         }
         Shake(zipShake, 0.25f);
-        ShardFX.Play(zipClip, root.position, 1f);
+        GameAudio.Play(zipClip, SfxId.ShardZip, root.position, 1f);
         ShardFX.Burst(root.position + controller.center, -lastDir, target.ShardColor, 20, 12f, 0.15f, 0.3f, 25f, 0f, true);
 
         float elapsed = 0f;
@@ -299,7 +300,7 @@ public class ShardAltFire : MonoBehaviour, IWeaponAltFire
         IDamageable victim = target.Victim;
         target.Shatter(true);
 
-        weapon.PlayAnimationState(meleeAnimationState);
+        if (!weapon.PlayAnimationState(meleeAnimationState)) weapon.PlayFireAnimation();
         victim.TakeDamage(meleeDamage, point, dir);
         bool killed = victim.IsDead;
 
@@ -308,14 +309,14 @@ public class ShardAltFire : MonoBehaviour, IWeaponAltFire
         ShardFX.Burst(point, -dir, Color.white, 6, 2f, 1.2f, 0.12f, 30f, 0f, false);
         ShardFX.Ring(point, c, 0.5f, 5f, 0.35f, true);
         ShardFX.Flash(point, c, 14f, 12f, 0.25f);
-        ShardFX.Play(meleeClip, point, 1f);
+        GameAudio.Play(meleeClip, SfxId.ShardMelee, point, 1f);
 
         if (killed)
         {
             Color hot = new Color(1f, 0.35f, 0.25f, 1f);
             ShardFX.Burst(point, Vector3.up, hot, 40, 14f, 0.3f, 0.6f, 180f, 1.5f, true);
             ShardFX.Ring(point, Color.white, 0.8f, 8f, 0.45f, true);
-            ShardFX.Play(killClip, point, 1f);
+            GameAudio.Play(killClip, SfxId.ShardKill, point, 1f);
         }
 
         Shake(killed ? killShake : meleeShake, killed ? 0.4f : 0.3f);

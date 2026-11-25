@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5e1a7c3b9d2f4e6a8b0c1d2e3f405a62, type: 3}
+  m_Name: Seq_DashDone
+  m_EditorClassIdentifier: 
+  priority: 1
+  interruptible: 1
+  lines:
+  - speaker: {fileID: 11400000, guid: e9201bf67e30d9b7e5821ece7dd48fc0, type: 2}
+    text: "Good. Barrier's down."
+    voice: {fileID: 8300000, guid: d6fbf11debe863fbca3d7473a8684e19, type: 3}
+    pauseBefore: 0
+    holdOverride: 0

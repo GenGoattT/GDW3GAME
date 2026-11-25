@@ -382,6 +382,8 @@ GameObject:
   - component: {fileID: 5168090923833182723}
   - component: {fileID: 8511107487743413277}
   - component: {fileID: 8458920254550824274}
+  - component: {fileID: 7364829105562837411}
+  - component: {fileID: 6158203947716230594}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -3496,3 +3498,36 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7364829105562837411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908669403006377672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ffc11e4bf6f2343a3ca7096ec45f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Combat.Health
+  maxHealth: 100
+  invulnerableTime: 0.3
+  onDied:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6158203947716230594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908669403006377672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3ca3ac7ae84bf78c36b2f1abc8b463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Player.PlayerDeath
+  restartDelay: 1.5
+  hitShakeStrength: 0.25
+  hitShakeTime: 0.15
+  deathShakeStrength: 0.6

@@ -1,3 +1,4 @@
+using Project.Audio;
 using UnityEngine;
 using Project.Combat;
 
@@ -83,6 +84,8 @@ namespace Project.Enemies
 
             if (shatterEffect != null)
                 Instantiate(shatterEffect, hit.point, Quaternion.LookRotation(hit.normal));
+
+            GameAudio.Play(SfxId.IceShatter, hit.point);
 
             Destroy(gameObject);
         }

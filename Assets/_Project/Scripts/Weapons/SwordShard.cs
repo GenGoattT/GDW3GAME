@@ -1,3 +1,4 @@
+using Project.Audio;
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -243,7 +244,7 @@ public class SwordShard : MonoBehaviour
             ShardFX.Burst(point, normal, Color.white, 8, 6f, 0.5f, 0.15f, 60f, 0f, false);
             ShardFX.Ring(point, c, 0.3f, 3.2f, 0.3f, true);
             ShardFX.Flash(point, c, 8f, 8f, 0.2f);
-            ShardFX.Play(settings.embedClip, point, 1f);
+            GameAudio.Play(settings.embedClip, SfxId.ShardEmbed, point, 1f);
 
             if (d.IsDead)
             {
@@ -261,7 +262,7 @@ public class SwordShard : MonoBehaviour
 
         ShardFX.Burst(point, normal, c, 14, 9f, 0.14f, 0.3f, 40f, 1f, true);
         ShardFX.Flash(point, c, 3f, 4f, 0.12f);
-        ShardFX.Play(settings.wallClip, point, 0.8f);
+        GameAudio.Play(settings.wallClip, SfxId.ShardWall, point, 0.8f);
         State = ShardState.Stuck;
         HitWall?.Invoke(this);
     }
@@ -276,7 +277,7 @@ public class SwordShard : MonoBehaviour
         }
         if (timer >= settings.embedLifetime)
         {
-            ShardFX.Play(settings.expireClip, transform.position, 0.8f);
+            GameAudio.Play(settings.expireClip, SfxId.ShardExpire, transform.position, 0.8f);
             Shatter(true);
             return;
         }

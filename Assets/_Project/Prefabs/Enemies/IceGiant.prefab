@@ -175,21 +175,17 @@ MonoBehaviour:
   bodyRenderer: {fileID: 1535097739570877717}
   startAggro: 1
   aggroRange: 40
-  moveSpeed: 3.5
-  acceleration: 10
-  turnSpeed: 140
+  moveSpeed: 2.4
+  acceleration: 6
+  turnSpeed: 100
   hitFlashTime: 0.08
   deathFallTime: 0.35
   corpseLifetime: 4
   repathInterval: 0.15
-  attackRange: 3.2
-  clubWindupTime: 0.75
-  clubRecoverTime: 1.1
-  clubDamage: 35
-  clubTurnSpeed: 90
-  hitRadius: 1.6
-  hitForwardOffset: 2.2
-  hitHeight: 1.5
+  attackRange: 6.5
+  clubDamage: 18
+  clubTurnSpeed: 240
+  hitRadius: 1.9
   hitMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -209,8 +205,8 @@ MonoBehaviour:
   lineOfSightMask:
     serializedVersion: 2
     m_Bits: 4294967295
-  meleePhaseMin: 5
-  meleePhaseMax: 8
+  meleePhaseMin: 4
+  meleePhaseMax: 7
   throwRetryDelay: 1
   clubTint: {r: 1, g: 0.35, b: 0.25, a: 1}
   throwTint: {r: 0.5803222, g: 0.7142546, b: 0.764151, a: 1}

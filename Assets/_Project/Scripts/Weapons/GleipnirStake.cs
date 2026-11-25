@@ -1,3 +1,4 @@
+using Project.Audio;
 using System;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -262,7 +263,7 @@ public class GleipnirStake : MonoBehaviour
             ShardFX.Burst(point, -dir, c, 14, 12f, 0.14f, 0.3f, 30f, 0.5f, true);
             ShardFX.Ring(point, c, 0.3f, 2.4f, 0.25f, true);
             ShardFX.Flash(point, c, 6f, 6f, 0.15f);
-            ShardFX.Play(settings.enemyHitClip, point, 1f);
+            GameAudio.Play(settings.enemyHitClip, SfxId.StakeHitEnemy, point, 1f);
             ShardFX.CameraShake(1.4f, 0.15f);
             HitStop.Do(0.035f);
 
@@ -286,7 +287,7 @@ public class GleipnirStake : MonoBehaviour
         ShardFX.Burst(point, normal, new Color(0.55f, 0.52f, 0.5f, 0.8f), 10, 3f, 0.5f, 0.6f, 50f, -0.1f, false);
         ShardFX.Ring(point, c, 0.2f, 1.8f, 0.2f, false);
         ShardFX.Flash(point, c, 4f, 5f, 0.12f);
-        ShardFX.Play(settings.wallHitClip, point, 1f);
+        GameAudio.Play(settings.wallHitClip, SfxId.StakeHitWall, point, 1f);
         ShardFX.CameraShakeAt(point, 1f, 0.12f, 30f);
 
         State = StakeState.InWall;
