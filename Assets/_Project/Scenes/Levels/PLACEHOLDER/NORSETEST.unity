@@ -26,7 +26,7 @@ RenderSettings:
   m_AmbientIntensity: 1
   m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
+  m_SkyboxMaterial: {fileID: 2100000, guid: 85e20df57d0ce684f922d2a7e860a5a2, type: 2}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -10152,7 +10152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0daf6c9da1f112349962cd1f3b5cf80f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::UltrakillstylePostEffect
-  shader: {fileID: 4800000, guid: 57574d3e747aa3547ae700f2b08ba2fb, type: 3}
+  shader: {fileID: 0}
   targetHeight: 270
   colorSteps: 24
   ditherStrength: 1
