@@ -21,11 +21,11 @@ public class GameManager : MonoBehaviour
     //Function to see if your able to leave once there are no enemys left in the scene
     public void DestroyEnemys()
     {
-        for (int i = 0; i < enemyL.Count; i++)
+        foreach (GameObject enemy in enemyL)
         {
-            if (enemyL[i].GetComponent<Health>().IsDead == true)
+            if (enemy.GetComponent<Health>().IsDead == true)
             {
-                enemyL.Remove(enemyL[i]);
+                enemy.SetActive(false);
             }
         }
 

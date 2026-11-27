@@ -381,6 +381,9 @@ GameObject:
   - component: {fileID: 2221717201673453459}
   - component: {fileID: 5168090923833182723}
   - component: {fileID: 8511107487743413277}
+  - component: {fileID: 8458920254550824274}
+  - component: {fileID: 7364829105562837411}
+  - component: {fileID: 6158203947716230594}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -537,6 +540,22 @@ MonoBehaviour:
   crouchTransitionSpeed: 10
   dashCharges: 0
   dashRegenTimer: 0
+--- !u!114 &8458920254550824274
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908669403006377672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dcbb9bb2d80b6f243b8622969323c441, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CheckpointData
+  oldPlayerLocation: {x: 0, y: 0, z: 0}
+  oldEnemyLocation: {x: 0, y: 0, z: 0}
+  oldEnemyRotation: {x: 0, y: 0, z: 0, w: 0}
+  oldHealth: 0
 --- !u!1 &1988670628632184574
 GameObject:
   m_ObjectHideFlags: 0
@@ -3097,8 +3116,8 @@ MonoBehaviour:
   Weapons:
   - Name: PlaceholderGun
     Object: {fileID: 67740495777944346, guid: ccee4d091683f714eb00838e36fd12e4, type: 3}
-  - Name: PlaceholderGun2
-    Object: {fileID: 67740495777944346, guid: df69a74fca3683f4eb67a702244ac34c, type: 3}
+  - Name: Gleipnir Wire Shotgun
+    Object: {fileID: 67740495777944346, guid: 4b4bfcb4259845209f3da427b674f1ff, type: 3}
   HeldWeapon: {fileID: 0}
 --- !u!1 &8604965774006988391
 GameObject:
@@ -3479,3 +3498,36 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &7364829105562837411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908669403006377672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ffc11e4bf6f2343a3ca7096ec45f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Combat.Health
+  maxHealth: 100
+  invulnerableTime: 0.3
+  onDied:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6158203947716230594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908669403006377672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3ca3ac7ae84bf78c36b2f1abc8b463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Player.PlayerDeath
+  restartDelay: 1.5
+  hitShakeStrength: 0.25
+  hitShakeTime: 0.15
+  deathShakeStrength: 0.6

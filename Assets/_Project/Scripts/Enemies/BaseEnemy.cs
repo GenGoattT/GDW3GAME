@@ -1,8 +1,10 @@
+using Project.Audio;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Project.Combat;
 using Project.Player;
+using Project.Tutorial;
 
 namespace Project.Enemies
 {
@@ -27,11 +29,16 @@ namespace Project.Enemies
 
         [Header("Feedback")]
         [SerializeField] private float hitFlashTime = 0.08f;
+        [SerializeField] private Color hitFlashColor = Color.white;
+        [SerializeField] private float hitFlashIntensity = 2f;
         [SerializeField] private float deathFallTime = 0.35f;
         [SerializeField] private float corpseLifetime = 4f;
 
         private Material bodyMat;
         private float flashTimer;
+        private Renderer[] flashRenderers = new Renderer[0];
+        private Material[][] restingMaterials;
+        private Material[][] flashMaterials;
 
         protected NavMeshAgent Agent { get; private set; }
         protected Health EnemyHealth { get; private set; }
@@ -41,6 +48,42 @@ namespace Project.Enemies
         protected Color BaseColor { get; private set; } = Color.white;
 
         protected virtual Color RestingTint => BaseColor;
+
+        public bool IsExternallyMoved { get; private set; }
+        public bool IsDormant { get; private set; }
+        public bool IsEnemyDead => EnemyHealth != null && EnemyHealth.IsDead;
+
+        public void SetDormant(bool dormant)
+        {
+            IsDormant = dormant;
+            if (dormant) return;
+
+            if (IsAlerted) OnAlerted();
+            else Alert();
+        }
+
+        public void BeginExternalMove()
+        {
+            IsExternallyMoved = true;
+            if (Agent != null && Agent.enabled) Agent.enabled = false;
+        }
+
+        public void EndExternalMove()
+        {
+            IsExternallyMoved = false;
+            if (IsDead || Agent == null) return;
+
+            if (NavMesh.SamplePosition(transform.position, out NavMeshHit hit, 6f, NavMesh.AllAreas))
+            {
+                transform.position = hit.position;
+                Agent.enabled = true;
+                Agent.Warp(hit.position);
+            }
+            else
+            {
+                Agent.enabled = true;
+            }
+        }
 
 
         protected virtual void Awake()
@@ -53,11 +96,24 @@ namespace Project.Enemies
             Agent.angularSpeed = turnSpeed;
             Agent.stoppingDistance = 0f;
 
+            if (bodyRenderer == null) bodyRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
+
             if (bodyRenderer != null)
             {
                 bodyMat = bodyRenderer.material; 
                 BaseColor = bodyMat.color;
             }
+
+            BuildFlashMaterials();
+        }
+
+        protected virtual void OnDestroy()
+        {
+            if (flashMaterials == null) return;
+
+            foreach (Material[] mats in flashMaterials)
+                foreach (Material mat in mats)
+                    Destroy(mat);
         }
 
         protected virtual void OnEnable()
@@ -87,7 +143,7 @@ namespace Project.Enemies
         {
             UpdateFlash();
 
-            if (IsDead || target == null) return;
+            if (IsDead || target == null || IsExternallyMoved || IsDormant) return;
 
             Vector3 toTarget = target.position - transform.position;
             toTarget.y = 0f;
@@ -102,7 +158,14 @@ namespace Project.Enemies
             Tick(toTarget, dist);
         }
 
-      // hooks
+        protected virtual void LateUpdate()
+        {
+            if (IsDead || IsExternallyMoved) return;
+
+            Vector3 euler = transform.eulerAngles;
+            if (Mathf.Abs(Mathf.DeltaAngle(euler.x, 0f)) > 0.01f || Mathf.Abs(Mathf.DeltaAngle(euler.z, 0f)) > 0.01f)
+                transform.rotation = Quaternion.Euler(0f, euler.y, 0f);
+        }
 
         protected abstract void Tick(Vector3 toTarget, float distanceToTarget);
 
@@ -122,11 +185,13 @@ namespace Project.Enemies
 
         private void HandleDamaged(float amount, Vector3 hitPoint, Vector3 hitDirection)
         {
-            Alert(); // getting shot wakes it up
+            IsDormant = false;
+            Alert();
+            GameAudio.Play(SfxId.EnemyHit, hitPoint);
 
-            if (bodyMat != null)
+            if (flashRenderers.Length > 0)
             {
-                bodyMat.color = Color.white;
+                SetFlash(true);
                 flashTimer = hitFlashTime;
             }
 
@@ -141,13 +206,15 @@ namespace Project.Enemies
 
             SetTint(BaseColor);
             OnDeath();
+            GameAudio.Play(SfxId.EnemyDeath, transform.position);
+            ActionFeed.Raise(PlayerAction.Kill, this);
             StartCoroutine(DeathRoutine());
         }
 
         private IEnumerator DeathRoutine()
         {
             Quaternion start = transform.rotation;
-            Quaternion end = start * Quaternion.Euler(-90f, 0f, 0f); // topple backwards
+            Quaternion end = start * Quaternion.Euler(-90f, 0f, 0f);
 
             for (float t = 0f; t < deathFallTime; t += Time.deltaTime)
             {
@@ -164,8 +231,66 @@ namespace Project.Enemies
             if (flashTimer <= 0f) return;
 
             flashTimer -= Time.deltaTime;
-            if (flashTimer <= 0f && !IsDead)
-                SetTint(RestingTint);
+            if (flashTimer > 0f) return;
+
+            SetFlash(false);
+            if (!IsDead) SetTint(RestingTint);
+        }
+
+        private void BuildFlashMaterials()
+        {
+            if (bodyRenderer != null)
+            {
+                flashRenderers = new[] { bodyRenderer };
+            }
+            else
+            {
+                flashRenderers = System.Array.FindAll(
+                    GetComponentsInChildren<Renderer>(),
+                    r => r is MeshRenderer || r is SkinnedMeshRenderer);
+            }
+
+            restingMaterials = new Material[flashRenderers.Length][];
+            flashMaterials = new Material[flashRenderers.Length][];
+
+            for (int i = 0; i < flashRenderers.Length; i++)
+            {
+                restingMaterials[i] = flashRenderers[i].sharedMaterials;
+                flashMaterials[i] = new Material[restingMaterials[i].Length];
+
+                for (int m = 0; m < restingMaterials[i].Length; m++)
+                    flashMaterials[i][m] = CreateFlashMaterial(restingMaterials[i][m]);
+            }
+        }
+
+        private Material CreateFlashMaterial(Material source)
+        {
+            if (source == null) return null;
+
+            Material flash = new Material(source) { name = source.name + " (Flash)" };
+
+            if (flash.HasProperty("_BaseColor")) flash.SetColor("_BaseColor", hitFlashColor);
+            if (flash.HasProperty("_Color")) flash.SetColor("_Color", hitFlashColor);
+            if (flash.HasProperty("_BaseMap")) flash.SetTexture("_BaseMap", null);
+            if (flash.HasProperty("_MainTex")) flash.SetTexture("_MainTex", null);
+
+            if (flash.HasProperty("_EmissionColor"))
+            {
+                flash.EnableKeyword("_EMISSION");
+                flash.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None;
+                flash.SetColor("_EmissionColor", hitFlashColor * hitFlashIntensity);
+            }
+
+            return flash;
+        }
+
+        private void SetFlash(bool on)
+        {
+            for (int i = 0; i < flashRenderers.Length; i++)
+            {
+                if (flashRenderers[i] == null) continue;
+                flashRenderers[i].sharedMaterials = on ? flashMaterials[i] : restingMaterials[i];
+            }
         }
 
         protected void SetTint(Color c)

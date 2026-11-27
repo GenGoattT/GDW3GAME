@@ -1,3 +1,4 @@
+using Project.Audio;
 using UnityEngine;
 using Project.Combat;
 
@@ -13,9 +14,9 @@ public class Weapon : MonoBehaviour
 
     [SerializeField] private WeaponIds Id;
     [SerializeField] private string Name;
-    [SerializeField] public int CurrentAmmo; //Changed this to public so that the HUD can access it for the ammo count.
-    [SerializeField] public int MaxAmmo; //Changed this to public so that the HUD can access it for the display in the right.
-    [SerializeField] public Sprite HudPreview; //Added this so that the HUD can display the weapon preview image. 
+    [SerializeField] public int CurrentAmmo;
+    [SerializeField] public int MaxAmmo;
+    [SerializeField] public Sprite HudPreview;
 
     [Header("Firing (Ultrakill style hitscan)")]
     [SerializeField] private float damage = 10f;
@@ -37,14 +38,50 @@ public class Weapon : MonoBehaviour
     [Tooltip("Optional. Spawned where the bullet lands.")]
     [SerializeField] private GameObject impactEffect;
 
+    [SerializeField] private bool hasShardAltFire = true;
+    [SerializeField] private AudioClip fireClip;
+
     private float cooldownTimer;
     private float bufferTimer;
     private int fireStateHash;
+    private IWeaponPrimaryFire primaryFire;
+    private IWeaponAltFire altFire;
+
+    public WeaponManager Manager => WeaponManager;
 
     private void Awake()
     {
         if (Animator == null) Animator = GetComponentInChildren<Animator>();
         fireStateHash = Animator.StringToHash(fireAnimationState);
+
+        primaryFire = GetComponent<IWeaponPrimaryFire>();
+        altFire = GetComponent<IWeaponAltFire>();
+        if (altFire == null && hasShardAltFire) altFire = gameObject.AddComponent<ShardAltFire>();
+    }
+
+    public void PlayerTriesToAltFire()
+    {
+        if (altFire is Behaviour b && b != null && b.enabled) altFire.TryAltFire();
+    }
+
+    public void SetMuzzle(Transform muzzle)
+    {
+        muzzlePoint = muzzle;
+    }
+
+    public bool PlayAnimationState(string stateName)
+    {
+        if (Animator == null || string.IsNullOrEmpty(stateName)) return false;
+        int hash = Animator.StringToHash(stateName);
+        if (!Animator.HasState(0, hash)) return false;
+        Animator.Play(hash, 0, 0f);
+        return true;
+    }
+
+    public Vector3 GetMuzzlePosition(Camera cam)
+    {
+        if (muzzlePoint != null) return muzzlePoint.position;
+        return cam.transform.position + cam.transform.right * 0.25f - cam.transform.up * 0.2f + cam.transform.forward * 0.6f;
     }
 
     void Start()
@@ -72,10 +109,18 @@ public class Weapon : MonoBehaviour
 
     public void PlayerFires()
     {
-        cooldownTimer = fireCooldown;
         bufferTimer = 0f;
 
+        if (primaryFire != null)
+        {
+            cooldownTimer = primaryFire.PrimaryCooldown;
+            primaryFire.FirePrimary();
+            return;
+        }
+
+        cooldownTimer = fireCooldown;
         PlayFireAnimation();
+        GameAudio.Play(fireClip, SfxId.PistolFire, transform.position);
         FireHitscan();
     }
 
@@ -91,7 +136,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    private void PlayFireAnimation()
+    public void PlayFireAnimation()
     {
         if (Animator == null) return;
         if (!Animator.HasState(0, fireStateHash)) return;
@@ -158,9 +203,7 @@ public class Weapon : MonoBehaviour
             victim.TakeDamage(damage, endPoint, ray.direction);
         }
 
-        Vector3 muzzle = muzzlePoint != null
-            ? muzzlePoint.position
-            : cam.transform.position + cam.transform.right * 0.25f - cam.transform.up * 0.2f + cam.transform.forward * 0.6f;
+        Vector3 muzzle = GetMuzzlePosition(cam);
 
         BulletTracer.Spawn(muzzle, endPoint, tracerMaterial, tracerColor, tracerWidth, tracerDuration);
 
@@ -185,7 +228,7 @@ public class Weapon : MonoBehaviour
     }
     public WeaponInstanceData ConvertToWeaponInstanceData()
     {
-        WeaponInstanceData w = new WeaponInstanceData(Id, CurrentAmmo, Name/*, HudPreview*/);
+        WeaponInstanceData w = new WeaponInstanceData(Id, CurrentAmmo, Name);
 
         return w;
     }

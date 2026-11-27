@@ -1,3 +1,4 @@
+using Project.Combat;
 using Project.Player;
 using TMPro;
 using UnityEngine;
@@ -54,6 +55,7 @@ public class HudController : MonoBehaviour
     [Header("References")]
     [SerializeField] PlayerMovement playerMovement;
     [SerializeField] WeaponManager weaponManager;
+    [SerializeField] Health playerHealthSource;
     //Don't have any other resources in the game that need tracking right now.
     //[SerializeField] PlayerStatus playerStatus;
 
@@ -65,15 +67,42 @@ public class HudController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        if (playerHealthSource == null && playerMovement != null)
+        {
+            playerHealthSource = playerMovement.GetComponent<Health>();
+        }
+
+        if (playerHealthSource != null)
+        {
+            playerHealthSource.Damaged += OnPlayerDamaged;
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (playerHealthSource != null)
+        {
+            playerHealthSource.Damaged -= OnPlayerDamaged;
+        }
+    }
+
+    void OnPlayerDamaged(float amount, Vector3 hitPoint, Vector3 hitDirection)
+    {
+        healthFill.color = FlashColor;
+        healthFlashTimer = healthFlashTime;
     }
 
     // Update is called once per frame
     void Update()
     {
         //Health
+        if (playerHealthSource != null)
+        {
+            maxHealth = playerHealthSource.MaxHealth;
+            playerHealth = playerHealthSource.CurrentHealth;
+        }
         healthBar.value = playerHealth / maxHealth;
-        healthText.GetComponent<TextMeshProUGUI>().text = $"{playerHealth/maxHealth*100}";
+        healthText.GetComponent<TextMeshProUGUI>().text = $"{Mathf.CeilToInt(playerHealth / maxHealth * 100)}";
         if (healthFlashTimer > 0)
         {
             healthFlashTimer -= Time.deltaTime;
@@ -85,7 +114,14 @@ public class HudController : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.H)) //Temporary testing for health
         {
-            UpdateHealth(playerHealth - 10);
+            if (playerHealthSource != null)
+            {
+                playerHealthSource.TakeDamage(10, playerHealthSource.transform.position, Vector3.zero);
+            }
+            else
+            {
+                UpdateHealth(playerHealth - 10);
+            }
         }
 
         //Dashes

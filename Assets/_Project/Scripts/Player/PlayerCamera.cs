@@ -54,6 +54,10 @@ namespace Project.Player
         private float dipAmount;
         private float dipTimer;
 
+        private float shakeStrength;
+        private float shakeDuration;
+        private float shakeTimer;
+
         private void Awake()
         {
             if (cam == null) cam = GetComponent<Camera>();
@@ -79,7 +83,8 @@ namespace Project.Player
             pitch -= mouseY;
             pitch = Mathf.Clamp(pitch, minPitch, maxPitch);
 
-            transform.localRotation = Quaternion.Euler(pitch, 0f, currentTilt);
+            Vector3 shake = GetShakeOffset();
+            transform.localRotation = Quaternion.Euler(pitch + shake.x, shake.y, currentTilt + shake.z);
             playerBody.Rotate(Vector3.up * mouseX);
         }
 
@@ -132,6 +137,34 @@ namespace Project.Player
                 pendingDip = Mathf.Max(pendingDip, dip);
                 pendingDipTime = Mathf.Max(pendingDipTime, dipTime);
             }
+        }
+
+        public void Shake(float strength, float duration)
+        {
+            if (strength >= shakeStrength * (shakeDuration > 0f ? shakeTimer / shakeDuration : 0f))
+            {
+                shakeStrength = strength;
+                shakeDuration = Mathf.Max(0.01f, duration);
+                shakeTimer = shakeDuration;
+            }
+        }
+
+        public void PunchFov(float peakFov, float hold)
+        {
+            Punch(peakFov, 0.8f, hold, 0f, 0f);
+        }
+
+        private Vector3 GetShakeOffset()
+        {
+            if (shakeTimer <= 0f) return Vector3.zero;
+            shakeTimer -= Time.unscaledDeltaTime;
+            float k = Mathf.Clamp01(shakeTimer / shakeDuration);
+            float amp = shakeStrength * k * k;
+            float t = Time.unscaledTime * 38f;
+            return new Vector3(
+                (Mathf.PerlinNoise(t, 0.1f) - 0.5f) * 2f * amp,
+                (Mathf.PerlinNoise(0.7f, t) - 0.5f) * 2f * amp,
+                (Mathf.PerlinNoise(t, 3.3f) - 0.5f) * 2f * amp * 0.6f);
         }
 
         public void OnDash()
