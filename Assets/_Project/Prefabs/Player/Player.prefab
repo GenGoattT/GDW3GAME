@@ -556,6 +556,40 @@ MonoBehaviour:
   oldEnemyLocation: {x: 0, y: 0, z: 0}
   oldEnemyRotation: {x: 0, y: 0, z: 0, w: 0}
   oldHealth: 0
+  wasDead: 0
+--- !u!114 &7364829105562837411
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908669403006377672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f9ffc11e4bf6f2343a3ca7096ec45f80, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Combat.Health
+  maxHealth: 100
+  invulnerableTime: 0.3
+  onDied:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &6158203947716230594
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1908669403006377672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a3ca3ac7ae84bf78c36b2f1abc8b463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Project.Player.PlayerDeath
+  restartDelay: 1.5
+  hitShakeStrength: 0.25
+  hitShakeTime: 0.15
+  deathShakeStrength: 0.6
 --- !u!1 &1988670628632184574
 GameObject:
   m_ObjectHideFlags: 0
@@ -1009,6 +1043,7 @@ MonoBehaviour:
   tipText: {fileID: 3347600014159486825}
   playerMovement: {fileID: 8511107487743413277}
   weaponManager: {fileID: 2546249724458658943}
+  playerHealthSource: {fileID: 0}
   maxHealth: 100
   playerHealth: 70
 --- !u!114 &4831126995463824867
@@ -3498,36 +3533,3 @@ RectTransform:
   m_AnchoredPosition: {x: -5, y: 0}
   m_SizeDelta: {x: -20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &7364829105562837411
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908669403006377672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f9ffc11e4bf6f2343a3ca7096ec45f80, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Project.Combat.Health
-  maxHealth: 100
-  invulnerableTime: 0.3
-  onDied:
-    m_PersistentCalls:
-      m_Calls: []
---- !u!114 &6158203947716230594
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1908669403006377672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4a3ca3ac7ae84bf78c36b2f1abc8b463, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Project.Player.PlayerDeath
-  restartDelay: 1.5
-  hitShakeStrength: 0.25
-  hitShakeTime: 0.15
-  deathShakeStrength: 0.6
